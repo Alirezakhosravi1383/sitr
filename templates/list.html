@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4 class="mb-3">لیست پرونده‌ها</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>شناسه</th>
+      <th>نام</th>
+      <th>رشته</th>
+      <th>سال</th>
+      <th>وضعیت</th>
+      <th>عملیات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+    <tr>
+      <td>{{ s['sid'] }}</td>
+      <td>{{ s['name'] }}</td>
+      <td>{{ s['major'] }}</td>
+      <td>{{ s['year'] }}</td>
+      <td>
+        <span class="badge {% if s['status']=='active' %}bg-success{% else %}bg-secondary{% endif %}">
+          {{ s['status'] }}
+        </span>
+      </td>
+      <td>
+        <a class="btn btn-sm btn-primary" href="{{ url_for('view_student', sid=s['sid']) }}">نمایش</a>
+        <a class="btn btn-sm btn-warning" href="{{ url_for('edit', sid=s['sid']) }}">ویرایش</a>
+        <form action="{{ url_for('delete', sid=s['sid']) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('آیا مطمئن هستید؟');">
+          <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

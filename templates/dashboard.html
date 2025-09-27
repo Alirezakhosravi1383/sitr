@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>داشبورد</h3>
+  <div>
+    <a href="{{ url_for('list_students') }}" class="btn btn-outline-secondary btn-sm">📋 لیست</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">خروج</a>
+  </div>
+</div>
+
+<div class="row">
+  <!-- ایجاد پرونده جدید -->
+  <div class="col-md-4 mb-3">
+    <div class="card p-3 h-100">
+      <h5>➕ ایجاد پرونده جدید</h5>
+      <p>ثبت اطلاعات و آپلود عکس.</p>
+      <a href="{{ url_for('create') }}" class="btn btn-primary">رفتن</a>
+    </div>
+  </div>
+
+  <!-- ویرایش / حذف پرونده -->
+  <div class="col-md-4 mb-3">
+    <div class="card p-3 h-100">
+      <h5>✏️ ویرایش / حذف پرونده</h5>
+      <p>جستجو بر اساس شناسه یا اسکن QR.</p>
+      <a href="{{ url_for('list_students') }}" class="btn btn-primary mb-2">رفتن</a>
+    </div>
+  </div>
+
+  <!-- اعطای دسترسی جدید -->
+  <div class="col-md-4 mb-3">
+    <div class="card p-3 h-100">
+      <h5>🔑 اعطای دسترسی جدید</h5>
+      <p>ساخت نام‌کاربری و رمز برای افراد جدید.</p>
+      <a href="{{ url_for('add_user') }}" class="btn btn-primary">رفتن</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

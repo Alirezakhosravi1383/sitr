@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}ویرایش پرونده{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if student %}
+    <div class="card p-3">
+        <h4>ویرایش پرونده {{ student.name }}</h4>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="d-flex mb-3">
+                <div style="margin-right:15px;">
+                    <label>تصویر</label><br>
+                    {% if student.photo_path %}
+                    <img id="photoPreview" src="{{ url_for('static', filename=student.photo_path.split('static/')[-1]) }}"
+                         style="width:120px;height:120px;object-fit:cover;border:1px solid #ccc;">
+                    {% else %}
+                    <img id="photoPreview" src="#" style="display:none;width:120px;height:120px;object-fit:cover;border:1px solid #ccc;">
+                    {% endif %}
+                </div>
+                <div class="flex-grow-1">
+                    <input type="file" name="photo" class="form-control" accept="image/*" onchange="previewPhoto(event)"
+                           {% if student.status=='inactive' %}disabled{% endif %}>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>نام</label>
+                <input type="text" name="name" class="form-control" value="{{ student.name }}"
+                       {% if student.status=='inactive' %}disabled{% endif %}>
+            </div>
+
+            <div class="mb-3">
+                <label>رشته</label>
+                <input type="text" name="major" class="form-control" value="{{ student.major }}"
+                       {% if student.status=='inactive' %}disabled{% endif %}>
+            </div>
+
+            <div class="mb-3">
+                <label>سال</label>
+                <input type="text" name="year" class="form-control" value="{{ student.year }}"
+                       {% if student.status=='inactive' %}disabled{% endif %}>
+            </div>
+
+            <div class="mb-3">
+                <label>وضعیت:</label>
+                <select name="status" class="form-select">
+                    <option value="active" {% if student.status=='active' %}selected{% endif %}>Active</option>
+                    <option value="inactive" {% if student.status=='inactive' %}selected{% endif %}>Inactive</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>توضیحات اضافی</label>
+                <textarea name="extra" class="form-control"
+                          {% if student.status=='inactive' %}disabled{% endif %}>{{ student.extra }}</textarea>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">ذخیره</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">خروج</a>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <p>پرونده‌ای یافت نشد.</p>
+    {% endif %}
+</div>
+
+<script>
+function previewPhoto(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        const output = document.getElementById('photoPreview');
+        output.src = reader.result;
+        output.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+{% endblock %}

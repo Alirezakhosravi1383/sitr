@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}مشاهده پرونده{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if student %}
+    <div class="card p-3">
+        <div class="d-flex align-items-start">
+            {% if student.photo_path %}
+            <img src="{{ url_for('static', filename=student.photo_path) }}"
+                 alt="عکس" style="width:120px;height:120px;object-fit:cover;margin-right:15px;">
+            {% endif %}
+            <div>
+                <h4>{{ student.name }}</h4>
+                <p><strong>شناسه:</strong> {{ student.sid }}</p>
+                <p><strong>رشته:</strong> {{ student.major }}</p>
+                <p><strong>سال:</strong> {{ student.year }}</p>
+                <p>
+                    <strong>وضعیت:</strong>
+                    <span class="badge {% if student.status=='active' %}bg-success{% else %}bg-secondary{% endif %}">
+                        {{ student.status }}
+                    </span>
+                </p>
+                {% if qr %}
+                <p><strong>QR:</strong></p>
+                <img src="{{ qr }}" alt="QR کد" style="width:120px;height:120px;">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ url_for('edit', sid=student.sid) }}" 
+               class="btn btn-primary {% if student.status != 'active' %}disabled{% endif %}">ویرایش</a>
+
+            <form method="POST" action="{{ url_for('delete', sid=student.sid) }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('آیا مطمئن هستید؟')">
+                    حذف
+                </button>
+            </form>
+
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">خروج</a>
+        </div>
+    </div>
+    {% else %}
+    <p>پرونده‌ای یافت نشد.</p>
+    {% endif %}
+</div>
+{% endblock %}

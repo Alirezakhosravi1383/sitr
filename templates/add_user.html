@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4>اضافه کردن کاربر جدید</h4>
+<form method="post">
+  <div class="mb-2">
+    <label>نام کاربری</label>
+    <input name="username" class="form-control" required>
+  </div>
+  <div class="mb-2">
+    <label>رمز</label>
+    <input name="password" class="form-control" required>
+  </div>
+  <button class="btn btn-primary">اضافه کن</button>
+</form>
+
+<hr>
+
+<h4>لیست کاربران</h4>
+<ul class="list-group">
+  {% for user in users %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ user['username'] }}
+    <form method="POST" action="{{ url_for('delete_user', username=user['username']) }}" style="display:inline">
+      <button class="btn btn-sm btn-danger">حذف</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
